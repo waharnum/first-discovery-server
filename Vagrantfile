@@ -25,9 +25,9 @@ Vagrant.configure(2) do |config|
 
   # The ansible-galaxy command assumes a git client is available in the VM, the
   # inclusivedesign/centos7 Vagrant box includes one.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo ansible-galaxy install -fr /home/vagrant/provisioning/requirements.yml
-  #   sudo PYTHONUNBUFFERED=1 ansible-playbook /home/vagrant/provisioning/playbook.yml --tags="install,configure,deploy"
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    #sudo ansible-galaxy install -fr /home/vagrant/provisioning/requirements.yml
+    sudo PYTHONUNBUFFERED=1 ansible-playbook /home/vagrant/provisioning/playbook.yml --tags="install,configure,deploy"
+  SHELL
 
 end
