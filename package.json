@@ -23,6 +23,8 @@
   },
   "homepage": "http://fluidproject.org",
   "dependencies": {
-    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git"
+    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git",
+    "gpii-express": "git+https://github.com/GPII/gpii-express.git",
+    "infusion": "git+https://github.com/fluid-project/infusion.git"
   }
 }
