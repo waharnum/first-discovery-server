@@ -1,1 +1,1 @@
-require("./src/firstDiscoveryServer.js");
+require("./src/js/firstDiscoveryServer.js");

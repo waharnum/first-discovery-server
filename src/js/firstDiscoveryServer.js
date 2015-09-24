@@ -15,10 +15,11 @@ var gpii = fluid.registerNamespace("gpii");
 require("gpii-express");
 
 var path = require("path");
-var fdDemosDir = path.resolve(__dirname, "../node_modules/first-discovery/demos");
-var fdSrcDir = path.resolve(__dirname, "../node_modules/first-discovery/src");
+var fdDemosDir = path.resolve(__dirname, "../../node_modules/first-discovery/demos");
+var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src");
 
-gpii.express({
+fluid.defaults("gpii.firstDiscovery.server", {
+    gradeNames: ["gpii.express"],
     config: {
         express: {
             port: 8080,
@@ -42,3 +43,5 @@ gpii.express({
         }
     }
 });
+
+gpii.firstDiscovery.server();
