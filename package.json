@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://issues.fluidproject.org/browse/FLOE-420?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
   },
-  "homepage": "http://fluidproject.org"
+  "homepage": "http://fluidproject.org",
+  "dependencies": {
+    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git"
+  }
 }
