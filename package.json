@@ -1,5 +1,5 @@
 {
-    "name": "first discovery server",
+    "name": "first-discovery-server",
     "version": "0.0.1-SNAPSHOT",
     "description": "A server side implementation to serve a First Discovery Editor instance and provide a means for storing preferences to the GPII Preferences server.",
     "main": "index.js",
@@ -17,16 +17,7 @@
         "infusion"
     ],
     "author": "Fluid Project",
-    "licenses": [
-        {
-            "type": "BSD-3-Clause",
-            "url": "http://www.opensource.org/licenses/BSD-3-Clause"
-        },
-        {
-            "type": "ECL-2.0",
-            "url": "http://www.opensource.org/licenses/ECL-2.0"
-        }
-    ],
+    "license": "(BSD-3-Clause OR ECL-2.0)",
     "bugs": {
         "url": "https://issues.fluidproject.org/browse/FLOE-420?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
     },
