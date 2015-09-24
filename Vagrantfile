@@ -15,8 +15,8 @@ Vagrant.configure(2) do |config|
 
   # Your Git working directory will be synced to /vagrant in the VM.
   config.vm.synced_folder ".", "/home/vagrant", type: "rsync",
-    rsync__exclude: ".git/",
-    rsync__args: ["--verbose", "--archive", "-z", "--copy-links"]
+    rsync__exclude: [".git/", "node_modules/"],
+    rsync__args: ["--verbose", "--archive", "-z", "--copy-links", "--include=gpii/node_modules/"]
 
   config.vm.provider :virtualbox do |vm|
     vm.customize ["modifyvm", :id, "--memory", RAM]
