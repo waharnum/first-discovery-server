@@ -15,6 +15,4 @@ Vagrant and Ansible configuration has been provided to make the setup of a devel
 
 Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. The server will be accessible on your host machine at `http://localhost:8080`.
 
-_**NOTE:** You may need to run 'vagrant ssh' to enter the VM and manually run `npm install` and `node index.js` to start the server_
-
 If you want to continuously copy over your files as you make edits on your host machine, run `vagrant rsync-auto`.
