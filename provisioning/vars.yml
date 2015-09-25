@@ -11,4 +11,9 @@ nodejs_app_start_script: index.js
 
 nodejs_app_install_dir: /home/vagrant
 
+nodejs_app_dev_env: true
+
 nodejs_app_git_clone: false
+
+nodejs_app_rpm_packages:
+  - nodejs-grunt-cli
