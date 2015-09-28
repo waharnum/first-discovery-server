@@ -1,0 +1,39 @@
+{
+  "name": "first-discovery-server",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "A server side implementation to serve a First Discovery Editor instance and provide a means for storing preferences to the GPII Preferences server.",
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jobara/first-discovery-server.git"
+  },
+  "keywords": [
+    "preferences",
+    "first discovery",
+    "server",
+    "javascript",
+    "gpii",
+    "fluid",
+    "infusion"
+  ],
+  "author": "Fluid Project",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://issues.fluidproject.org/browse/FLOE-420?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
+  },
+  "homepage": "http://fluidproject.org",
+  "dependencies": {
+    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git",
+    "gpii-express": "git+https://github.com/GPII/gpii-express.git",
+    "infusion": "git+https://github.com/fluid-project/infusion.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "~0.9.0",
+    "grunt-jsonlint": "1.0.4",
+    "jqUnit": "git+https://github.com/fluid-project/node-jqUnit.git"
+  }
+}
