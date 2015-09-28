@@ -11,9 +11,9 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 "use strict";
 
 var fluid = fluid || require("infusion");
-var gpii = fluid.registerNamespace("gpii");
 
 require("gpii-express");
+require("./preferencesRouter.js");
 
 var path = require("path");
 var fdDemosDir = path.resolve(__dirname, "../../node_modules/first-discovery/demos");
@@ -41,8 +41,12 @@ fluid.defaults("gpii.firstDiscovery.server", {
                 path:    "/src",
                 content: fdSrcDir
             }
+        },
+        prefsRouter: {
+            type: "gpii.firstDiscovery.server.preferences.router",
+            options: {
+                path: "/user"
+            }
         }
     }
 });
-
-gpii.firstDiscovery.server();

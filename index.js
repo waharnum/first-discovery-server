@@ -10,4 +10,8 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 "use strict";
 
+var fluid = fluid || require("infusion");
+var gpii = fluid.registerNamespace("gpii");
 require("./src/js/firstDiscoveryServer.js");
+
+gpii.firstDiscovery.server();
