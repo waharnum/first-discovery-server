@@ -20,6 +20,12 @@ require("../../node_modules/gpii-express/tests/js/lib/test-helpers.js");
 require("../../node_modules/kettle");
 require("../../node_modules/kettle/lib/test/KettleTestUtils");
 
+fluid.defaults("gpii.tests.firstDiscovery.server.request", {
+    gradeNames: ["kettle.test.request.http"],
+    path:       "{testEnvironment}.options.baseUrl",
+    port:       "{testEnvironment}.options.port"
+});
+
 gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, expectedResponse, expectedBody) {
     jqUnit.assertEquals("The response should be as expected", expectedResponse, response);
     jqUnit.assertDeepEq("The body should be as expected...", expectedBody, body);
@@ -29,8 +35,8 @@ fluid.defaults("gpii.tests.firstDiscovery.server", {
     gradeNames: ["gpii.firstDiscovery.server"],
     config: {
         express: {
-            port: 8081,
-            baseUrl: "http://localhost:8081"
+            port: "{testEnvironment}.options.port",
+            baseUrl: "{testEnvironment}.options.baseUrl"
         }
     },
     events: {
@@ -44,6 +50,8 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
         constructServer: null,
         onStarted: null
     },
+    port: 8081,
+    baseUrl: "http://localhost:8081",
     components: {
         express: {
             createOnEvent: "constructServer",
@@ -71,7 +79,7 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
                 }],
                 components: {
                     jsonRequest: {
-                        type: "gpii.express.tests.contentAware.request",
+                        type: "gpii.tests.firstDiscovery.server.request",
                         options: {
                             headers: {
                                 accept: "application/json"
