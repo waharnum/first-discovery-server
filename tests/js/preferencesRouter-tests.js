@@ -22,13 +22,14 @@ require("../../node_modules/kettle/lib/test/KettleTestUtils");
 
 fluid.defaults("gpii.tests.firstDiscovery.server.request", {
     gradeNames: ["kettle.test.request.http"],
-    path:       "{testEnvironment}.options.baseUrl",
+    path:       "http://localhost/user",
+    // path:       "{testEnvironment}.options.baseUrl",
     port:       "{testEnvironment}.options.port"
 });
 
 gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, expectedResponse, expectedBody) {
-    jqUnit.assertEquals("The response should be as expected", expectedResponse, response);
-    jqUnit.assertDeepEq("The body should be as expected...", expectedBody, body);
+    gpii.express.tests.helpers.isSaneResponse(jqUnit, response, body, 200);
+    jqUnit.assertDeepEq("The body should be as expected...", expectedBody, JSON.parse(body));
 };
 
 fluid.defaults("gpii.tests.firstDiscovery.server", {
@@ -51,7 +52,7 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
         onStarted: null
     },
     port: 8081,
-    baseUrl: "http://localhost:8081",
+    baseUrl: "http://localhost/",
     components: {
         express: {
             createOnEvent: "constructServer",
@@ -81,6 +82,7 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
                     jsonRequest: {
                         type: "gpii.tests.firstDiscovery.server.request",
                         options: {
+                            method: "POST",
                             headers: {
                                 accept: "application/json"
                             }
