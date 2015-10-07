@@ -5,7 +5,7 @@
 nodejs_app_name: first-discovery-server
 
 nodejs_app_commands:
-  - npm install
+  - node install.js
 
 nodejs_app_start_script: index.js
 
