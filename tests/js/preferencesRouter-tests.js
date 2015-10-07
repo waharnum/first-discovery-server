@@ -12,17 +12,18 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 var fluid = fluid || require("infusion");
 var gpii = fluid.registerNamespace("gpii");
-var jqUnit       = require("jqUnit");
-var kettle = fluid.registerNamespace("kettle");
+var jqUnit = require("jqUnit");
+var kettle = require("kettle");
 
 kettle.loadTestingSupport();
-fluid.registerNamespace("gpii.tests.firstDiscovery.server");
 
 require("../../src/js/firstDiscoveryServer.js");
 // Once https://issues.gpii.net/browse/GPII-1302 has been addressed
 // the following blind include should be replaced by a more robust
 // inclusion mechanism.
 require("../../node_modules/gpii-express/tests/js/lib/test-helpers.js");
+
+fluid.registerNamespace("gpii.tests.firstDiscovery.server");
 
 fluid.defaults("gpii.tests.firstDiscovery.server.request", {
     gradeNames: ["kettle.test.request.http"],
