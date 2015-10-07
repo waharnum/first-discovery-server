@@ -26,7 +26,6 @@
     "node": true,
 
     "globals": {
-        "fluid_2_0": true,
         "JSON": false
     }
 }
