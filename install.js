@@ -24,6 +24,7 @@ var spawn = function (command, args) {
 // do not prevent its installation. The dedupe-infusion postinstall task in gpii-express
 // is currently failing because the grunt-gpii dependency is not installed before
 // the postinstall script is run.
+// See: https://github.com/npm/npm/issues/4134
 var npm = spawn("npm", ["install", "--force"]);
 
 npm.on("close", function (exitCode) {
@@ -34,13 +35,15 @@ npm.on("close", function (exitCode) {
         dedupe.on("close", function (exitCode) {
             // if dedupe process exited normally
             if (exitCode !== null) {
-                // spanws the reinstall of first-discovery
+                // spawns the reinstall of first-discovery
                 // first-discovery also depends on Infusion and contains a copy of
-                // Infusion wihtin its lib directory.
+                // Infusion within its "lib" directory.
                 // When the deduplication process is run, this copy of Infusion
                 // is also removed. However, because first-discovery runs on the client
                 // and does not make use of "require" it cannot locate the copy of Infusion.
                 // The reinstallation of first-discovery puts back its copy of Infusion.
+                // After https://issues.gpii.net/browse/GPII-1303 is addressed, it should
+                // be possible to remove this reinstallation step.
                 spawn("grunt", ["npm-install:first-discovery"]);
             }
         });
