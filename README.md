@@ -5,7 +5,7 @@ A server side implementation to serve a [First Discovery Editor](https://github.
 
 ## Development ##
 
-Vagrant and Ansible configuration has been provided to make the setup of a development environment much simpler. During development you'll be able to work on your local machine but run virtual machine to host the actual server.
+Vagrant and Ansible configuration has been provided to make the setup of a development environment much simpler. During development you'll be able to work on your local machine and run a virtual machine to host the actual server.
 
 ### Dependencies ###
 
@@ -13,6 +13,8 @@ Vagrant and Ansible configuration has been provided to make the setup of a devel
 
 ### Working with the VM ###
 
-Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. The server will be accessible on your host machine at `http://localhost:8080`.
+Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. By default, the server will be accessible on your host machine at `http://localhost:8080`.
 
-If you want to continuously copy over your files as you make edits on your host machine, run `vagrant rsync-auto`.
+**_NOTE_: If you changed the port option, `nodejs_app_tcp_port`, in the vars.yml file or 8080 is already in use on your host machine, the actual URL may be different.**
+
+Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.

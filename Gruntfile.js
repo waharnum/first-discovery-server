@@ -33,8 +33,6 @@ module.exports = function (grunt) {
     // Load the plugin(s):
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-jsonlint");
-    grunt.loadNpmTasks("grunt-shell");
-    grunt.loadNpmTasks("grunt-gpii");
 
     // Custom tasks:
 
