@@ -14,4 +14,6 @@ var fluid = fluid || require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 require("./src/js/firstDiscoveryServer.js");
 
-gpii.firstDiscovery.server();
+gpii.firstDiscovery.server({
+    port: process.env.FIRST_DISCOVERY_SERVER_TCP_PORT
+});

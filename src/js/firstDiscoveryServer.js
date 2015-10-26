@@ -21,10 +21,15 @@ var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src")
 
 fluid.defaults("gpii.firstDiscovery.server", {
     gradeNames: ["gpii.express"],
+    port: 8080,
     config: {
         express: {
-            port: 8080,
-            baseUrl: "http://localhost:8080"
+            baseUrl: {
+                expander: {
+                    funcName: "fluid.stringTemplate",
+                    args: ["http://localhost:%port", {port: "{that}.options.config.express.port"}]
+                }
+            }
         }
     },
     components: {
@@ -48,5 +53,9 @@ fluid.defaults("gpii.firstDiscovery.server", {
                 path: "/user"
             }
         }
-    }
+    },
+    distributeOptions: [{
+        source: "{that}.options.port",
+        target: "{that}.options.config.express.port"
+    }]
 });
