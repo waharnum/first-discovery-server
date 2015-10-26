@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jobara/first-discovery-server.git"
+    "url": "git+https://github.com/GPII/first-discovery-server.git"
   },
   "keywords": [
     "preferences",
@@ -19,7 +19,7 @@
     "fluid",
     "infusion"
   ],
-  "author": "Fluid Project",
+  "author": "GPII",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://issues.fluidproject.org/browse/FLOE-420?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
