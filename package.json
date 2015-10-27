@@ -41,7 +41,7 @@
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "~0.9.0",
     "grunt-jsonlint": "1.0.4",
-    "jqUnit": "git://github.com/fluid-project/node-jqUnit.git#d46bb932fa4069770852c51a92182939958f2d75",
-    "kettle":  "git://github.com/amb26/kettle.git#33e2826e78315c6d29b13c8ba810f54fef29e8ac"
+    "node-jqunit": "1.1.0",
+    "kettle":  "git://github.com/amb26/kettle.git#KETTLE-32"
   }
 }
