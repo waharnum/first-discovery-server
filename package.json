@@ -35,13 +35,13 @@
     "first-discovery": "git+https://github.com/fluid-project/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
     "infusion": "2.0.0-dev.20151007T134312Z.8c33cd4",
+    "kettle":  "git://github.com/amb26/kettle.git#KETTLE-32",
      "dedupe-infusion": "1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "~0.9.0",
     "grunt-jsonlint": "1.0.4",
-    "node-jqunit": "1.1.0",
-    "kettle":  "git://github.com/amb26/kettle.git#KETTLE-32"
+    "node-jqunit": "1.1.0"
   }
 }
