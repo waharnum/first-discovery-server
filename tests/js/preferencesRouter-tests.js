@@ -12,7 +12,7 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 var fluid = fluid || require("infusion");
 var gpii = fluid.registerNamespace("gpii");
-var jqUnit = require("jqUnit");
+var jqUnit = require("node-jqunit");
 var kettle = require("kettle");
 
 kettle.loadTestingSupport();
