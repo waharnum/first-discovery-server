@@ -29,7 +29,8 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
 // to contact the security layer to request creation of a gpii-token and saving
 // of the prefrences set.
 gpii.firstDiscovery.server.preferences.handler.handleRequest = function (that) {
-    that.sendResponse(200, {token: "mock-gpii-token"});
+    var view = that.request.query.view || "";
+    that.sendResponse(200, {token: "mock-gpii-token:" + view});
     // in the case of an error, the appropriate error code should be sent with a
     // response that contains {error: "some error message"}
 };

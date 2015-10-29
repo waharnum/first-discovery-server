@@ -14,6 +14,35 @@ FIRST_DISCOVERY_SERVER_TCP_PORT=8088
 node index.js
 ```
 
+### Resources ####
+
+<table>
+    <thead>
+        <tr>
+            <th>URL</th>
+            <th>Request</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>/demos/...<code></td>
+            <td><code>GET</code></td>
+            <td>
+                The First Discovery Tool's demos are served up from this root directory. The exact path to files will depend on the structure of the demos.
+                <em>(See: <a href="https://github.com/gpii/first-discovery">first-discovery</a>)</em>
+            </td>
+        </tr>
+        <tr>
+            <td><code>/user?[view=:view]</code></td>
+            <td><code>POST</code></td>
+            <td>
+                Accepts a set of preferences, in a JSON object, to be stored on the preferences server. A GPII token will be returned and can be used for retrieving the preferences on a GPII enabled device. The <code>view</code> query parameter is used to specify which ontology the preferences are stored in. (See: <a href="https://github.com/GPII/universal/blob/master/documentation/PreferencesServer.md#post-preferencesviewview">Prefrences Server</a>)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ## Development ##
 
 Vagrant and Ansible configuration has been provided to make the setup of a development environment much simpler. During development you'll be able to work on your local machine and run a virtual machine to host the actual server.
