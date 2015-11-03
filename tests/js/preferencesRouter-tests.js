@@ -38,12 +38,7 @@ gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, 
 
 fluid.defaults("gpii.tests.firstDiscovery.server", {
     gradeNames: ["gpii.firstDiscovery.server"],
-    config: {
-        express: {
-            port: "{testEnvironment}.options.port",
-            baseUrl: "{testEnvironment}.options.baseUrl"
-        }
-    },
+    port: "{testEnvironment}.options.port",
     events: {
         onStarted: "{testEnvironment}.events.onStarted"
     }
@@ -55,8 +50,7 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
         constructServer: null,
         onStarted: null
     },
-    port: 8081,
-    baseUrl: "http://localhost/",
+    port: 8111,
     components: {
         express: {
             createOnEvent: "constructServer",
