@@ -41,6 +41,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 19531, host: 19531, protocol: "tcp",
     auto_correct: true
 
+  # Port 18888 is needed so that node-inspector can be accessed outside the vm
+  config.vm.network "forwarded_port", guest: 18888, host: 18888, protocol: "tcp",
+    auto_correct: true
+
   config.vm.hostname = app_name
 
   config.vm.provider :virtualbox do |vm|
