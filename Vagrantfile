@@ -13,8 +13,8 @@ app_directory = ansible_vars["nodejs_app_install_dir"]
 # environment variables. Otherwise if 'nodejs_app_tcp_port' is defined
 # in vars.yml then use that port. Failing that use defaults provided
 # in this file.
-host_tcp_port = ENV["VM_HOST_TCP_PORT"] || ansible_vars["nodejs_app_tcp_port"] || 8080
-guest_tcp_port = ENV["VM_GUEST_TCP_PORT"] || ansible_vars["nodejs_app_tcp_port"] || 8080
+host_tcp_port = ENV["VM_HOST_TCP_PORT"] || ansible_vars["nodejs_app_tcp_port"] || 8088
+guest_tcp_port = ENV["VM_GUEST_TCP_PORT"] || ansible_vars["nodejs_app_tcp_port"] || 8088
 
 # By default this VM will use 1 processor core and 1GB of RAM. The 'VM_CPUS' and
 # "VM_RAM" environment variables can be used to change that behaviour.
