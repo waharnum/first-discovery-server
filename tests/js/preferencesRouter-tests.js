@@ -10,7 +10,7 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 "use strict";
 
-var fluid = fluid || require("infusion");
+var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 var jqUnit = require("node-jqunit");
 var kettle = require("kettle");
@@ -18,10 +18,7 @@ var kettle = require("kettle");
 kettle.loadTestingSupport();
 
 require("../../src/js/firstDiscoveryServer.js");
-// Once https://issues.gpii.net/browse/GPII-1302 has been addressed
-// the following blind include should be replaced by a more robust
-// inclusion mechanism.
-require("../../node_modules/gpii-express/tests/js/lib/test-helpers.js");
+require("gpii-express/tests/js/lib/test-helpers.js");
 
 fluid.registerNamespace("gpii.tests.firstDiscovery.server");
 
@@ -39,11 +36,6 @@ gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, 
 fluid.defaults("gpii.tests.firstDiscovery.server", {
     gradeNames: ["gpii.firstDiscovery.server"],
     port: "{testEnvironment}.options.port",
-    config: {
-        express: {
-            baseUrl: "{testEnvironment}.options.baseUrl"
-        }
-    },
     events: {
         onStarted: "{testEnvironment}.events.onStarted"
     }
@@ -55,8 +47,7 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
         constructServer: null,
         onStarted: null
     },
-    port: 8011,
-    baseUrl: "http://localhost/",
+    port: 8111,
     components: {
         express: {
             createOnEvent: "constructServer",
