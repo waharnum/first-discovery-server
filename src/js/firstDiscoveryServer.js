@@ -10,7 +10,7 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 "use strict";
 
-var fluid = require("infusion")
+var fluid = require("infusion");
 
 require("gpii-express");
 require("./preferencesRouter.js");
@@ -33,6 +33,9 @@ fluid.defaults("gpii.firstDiscovery.server", {
         }
     },
     components: {
+        json: {
+            type: "gpii.express.middleware.bodyparser.json"
+        },
         demoRouter: {
             type: "gpii.express.router.static",
             options: {
