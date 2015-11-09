@@ -13,23 +13,30 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 
+require("kettle");
 require("gpii-express");
-require("./dataSource.js");
 
 fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
     gradeNames: ["gpii.express.handler"],
     components: {
         accessTokenDataSource: {
-            type: "gpii.firstDiscovery.server.dataSource.security",
+            type: "kettle.dataSource.URL",
             options: {
-                url: "http://10.0.2.2:8081/access_token"
+                url: "http://10.0.2.2:8081/access_token",
+                writable: true,
+                components: {
+                    encoding: {
+                        type: "kettle.dataSource.encoding.formenc"
+                    }
+                },
+                setResponseTransforms: [] // Do not parse the "set" response as formenc - it is in fact JSON
             }
         },
         preferencesDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                writable: true,
                 url: "http://10.0.2.2:8081/add-preferences?view=%view",
+                writable: true,
                 termMap: {
                     view: "%view"
                 }
