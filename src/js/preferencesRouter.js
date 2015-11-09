@@ -47,18 +47,21 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         handleRequest: {
             funcName: "gpii.firstDiscovery.server.preferences.handler.handleRequest",
             args:     ["{that}"]
+        },
+        errorHandler: {
+            funcName: "gpii.firstDiscovery.server.preferences.handler.errorHandler",
+            args: ["{that}", "{arguments}.0"]
+        }
+    },
+    prefContext: {
+        "contexts": {
+            "gpii-default": {
+                "name": "Default preferences",
+                "preferences": {}
+            }
         }
     }
 });
-
-gpii.firstDiscovery.server.preferences.prefrencesWrapper = {
-    "contexts": {
-        "gpii-default": {
-            "name": "Default preferences",
-            "preferences": {}
-        }
-    }
-};
 
 //TODO: This is just a rough in for the actual handler. This should be updated
 // to contact the security layer to request creation of a gpii-token and saving
@@ -81,7 +84,7 @@ gpii.firstDiscovery.server.preferences.handler.handleRequest = function (that) {
     accessTokenPromise.then(function (response) {
         var access = JSON.parse(response);
 
-        var preferences = fluid.copy(gpii.firstDiscovery.server.preferences.prefrencesWrapper);
+        var preferences = fluid.copy(that.options.prefContext);
         fluid.set(preferences, ["contexts", "gpii-default", "preferences"], body);
 
         var preferencesPromise = that.preferencesDataSource.set({
@@ -95,15 +98,14 @@ gpii.firstDiscovery.server.preferences.handler.handleRequest = function (that) {
 
         preferencesPromise.then(function (response) {
             that.sendResponse(200, response);
-        }, function (error) {
-            var errorCode = error.statusCode || 500;
-            that.sendResponse(errorCode, error);
-        });
+        }, that.errorHandler);
 
-    }, function (error) {
-        var errorCode = error.statusCode || 500;
-        that.sendResponse(errorCode, error);
-    });
+    }, that.errorHandler);
+};
+
+gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error) {
+    var errorCode = error.statusCode || 500;
+    that.sendResponse(errorCode, error);
 };
 
 fluid.defaults("gpii.firstDiscovery.server.preferences.router", {
