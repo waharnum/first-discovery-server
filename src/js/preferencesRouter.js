@@ -16,6 +16,10 @@ var gpii = fluid.registerNamespace("gpii");
 require("kettle");
 require("gpii-express");
 
+/***********
+ * Handler *
+ ***********/
+
 fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
     gradeNames: ["gpii.express.handler"],
     components: {
@@ -24,6 +28,7 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
             options: {
                 url: "http://10.0.2.2:8081/access_token",
                 writable: true,
+                writeMethod: "POST",
                 components: {
                     encoding: {
                         type: "kettle.dataSource.encoding.formenc"
@@ -37,6 +42,7 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
             options: {
                 url: "http://10.0.2.2:8081/add-preferences?view=%view",
                 writable: true,
+                writeMethod: "POST",
                 termMap: {
                     view: "%view"
                 }
@@ -45,12 +51,24 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
     },
     invokers: {
         handleRequest: {
-            funcName: "gpii.firstDiscovery.server.preferences.handler.handleRequest",
+            funcName: "gpii.firstDiscovery.server.preferences.handler.storePrefs",
             args:     ["{that}"]
         },
         errorHandler: {
             funcName: "gpii.firstDiscovery.server.preferences.handler.errorHandler",
             args: ["{that}", "{arguments}.0"]
+        },
+        successHandler: {
+            func: "{that}.sendResponse",
+            args: [200, "{arguments}.0"]
+        },
+        getAccessToken: {
+            funcName: "gpii.firstDiscovery.server.preferences.handler.getAccessToken",
+            args: ["{that}"]
+        },
+        createUser: {
+            funcName: "gpii.firstDiscovery.server.preferences.handler.createUser",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
         }
     },
     prefContext: {
@@ -63,13 +81,29 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
     }
 });
 
-//TODO: This is just a rough in for the actual handler. This should be updated
-// to contact the security layer to request creation of a gpii-token and saving
-// of the prefrences set.
-gpii.firstDiscovery.server.preferences.handler.handleRequest = function (that) {
-    var view = that.request.query.view || "";
-    var body = that.request.body || {};
+/**
+ * Handles error responses
+ *
+ * @param that {Object} - the component
+ * @param error {Object} - the error information to return. If a statusCode property
+ *                         is included it will be used for the response code.
+ *                         Otherwise 500 will be used as the response code.
+ */
+gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error) {
+    var errorCode = error.statusCode || 500;
+    that.sendResponse(errorCode, error);
+};
 
+/**
+ * Retrieves the access tokne from the security accessTokenDataSource
+ *
+ * @param that {Object} - the component
+ *
+ * @returns {promise} - returns a fluid.promise. On resolve it will return an
+ *                      access object {access_token: "", token_type: ""}. On
+ *                      reject an error object will be returned.
+ */
+gpii.firstDiscovery.server.preferences.handler.getAccessToken = function (that) {
     var accessTokenModel = {
         grant_type: "client_credentials",
         scope: "add_preferences",
@@ -77,36 +111,65 @@ gpii.firstDiscovery.server.preferences.handler.handleRequest = function (that) {
         client_secret: "client_secret_firstDiscovery"
     };
 
-    var accessTokenPromise = that.accessTokenDataSource.set(null, accessTokenModel, {
-        writeMethod: "POST"
-    });
+    var promise = fluid.promise();
+    var atPromise = that.accessTokenDataSource.set(null, accessTokenModel);
 
-    accessTokenPromise.then(function (response) {
+    atPromise.then(function (response) {
         var access = JSON.parse(response);
+        promise.resolve(access);
+    }, promise.reject);
 
-        var preferences = fluid.copy(that.options.prefContext);
-        fluid.set(preferences, ["contexts", "gpii-default", "preferences"], body);
+    return promise;
+};
 
-        var preferencesPromise = that.preferencesDataSource.set({
-            view: view
-        }, preferences, {
-            writeMethod: "POST",
-            headers: {
-                Authorization: access.token_type + " " + access.access_token
-            }
-        });
+/**
+ * Creates a new user in the preferencesDataSource.
+ *
+ * @param that {Object} - the component
+ * @param access {Object} - an access object of the form {access_token: "", token_type: ""}
+ * @param prefs {Object} - the preferences to store
+ * @param view {String} - the name of the view/ontology that the preferences should be stored in.
+ *
+ * @returns {promise} - returns a fluid.promise. On resolve it will return an
+ *                      user object {userToken: "", preferences: {}}. On
+ *                      reject an error object will be returned.
+ */
+gpii.firstDiscovery.server.preferences.handler.createUser = function (that, access, prefs, view) {
+    var toStore = fluid.copy(that.options.prefContext);
+    fluid.set(toStore, ["contexts", "gpii-default", "preferences"], prefs);
 
-        preferencesPromise.then(function (response) {
-            that.sendResponse(200, response);
-        }, that.errorHandler);
+    return that.preferencesDataSource.set({
+        view: view
+    }, toStore, {
+        headers: {
+            Authorization: access.token_type + " " + access.access_token
+        }
+    });
+};
 
+/**
+ * Handles requests to store preferences. This requires a workflow that involves
+ * retrieving an access token, which is used to create a new user with the preferences
+ * sent in the request's body.
+ *
+ * @param that {Object} - the component
+ */
+gpii.firstDiscovery.server.preferences.handler.storePrefs = function (that) {
+    var view = that.request.query.view || "";
+    var body = that.request.body || {};
+
+    var accessTokenPromise = that.getAccessToken();
+
+    accessTokenPromise.then(function (access) {
+        var storePromise = that.createUser(access, body, view);
+        storePromise.then(that.successHandler, that.errorHandler);
     }, that.errorHandler);
 };
 
-gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error) {
-    var errorCode = error.statusCode || 500;
-    that.sendResponse(errorCode, error);
-};
+
+/**********
+ * Router *
+ **********/
 
 fluid.defaults("gpii.firstDiscovery.server.preferences.router", {
     gradeNames: ["gpii.express.contentAware.router"],
