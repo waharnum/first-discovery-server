@@ -8,9 +8,9 @@
     "npm": ">=2.0.0"
   },
   "scripts": {
-      "dedupe-infusion": "node -e \"require('dedupe-infusion')()\"",
-      "fullinstall": "npm install && npm run dedupe-infusion",
-      "start": "node index.js"
+    "dedupe-infusion": "node -e \"require('dedupe-infusion')()\"",
+    "fullinstall": "npm install && npm run dedupe-infusion",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -35,13 +35,14 @@
     "first-discovery": "git+https://github.com/GPII/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
     "infusion": "git://github.com/amb26/infusion.git#539c8dc6bdd2170944c0a4c58da52dd37fb098c0",
-    "kettle":  "git://github.com/amb26/kettle.git#c7207e93518b3c61cb6e923f22b1e26f2c365f64",
-     "dedupe-infusion": "1.0.0"
+    "kettle": "git://github.com/amb26/kettle.git#c7207e93518b3c61cb6e923f22b1e26f2c365f64",
+    "dedupe-infusion": "1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "~0.9.0",
     "grunt-jsonlint": "1.0.4",
+    "nock": "^2.17.0",
     "node-jqunit": "1.1.0"
   }
 }

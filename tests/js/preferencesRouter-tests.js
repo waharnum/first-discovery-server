@@ -14,6 +14,8 @@ var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 var jqUnit = require("node-jqunit");
 var kettle = require("kettle");
+var nock = require("nock");
+var querystring = require("querystring");
 
 kettle.loadTestingSupport();
 
@@ -24,7 +26,7 @@ fluid.registerNamespace("gpii.tests.firstDiscovery.server");
 
 fluid.defaults("gpii.tests.firstDiscovery.server.request", {
     gradeNames: ["kettle.test.request.http"],
-    path:       "http://localhost/user",
+    path:       "http://localhost/user?view=firstDiscovery",
     port:       "{testEnvironment}.options.port"
 });
 
@@ -48,6 +50,8 @@ fluid.defaults("gpii.tests.firstDiscovery.server", {
 // Currenlty this is not possible due to gpii universal and the first
 // discovery server depend on incompatible versions of infusion.
 // see: https://issues.gpii.net/browse/GPII-1318
+// For the time being, nock is used to intercept the http requests, providing
+// a simple mock solution for testing the requests to the security server.
 fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
     gradeNames: ["fluid.test.testEnvironment"],
     events: {
@@ -65,18 +69,37 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
             options: {
                 expected: {
                     response: 200,
-                    body: {token: "mock-gpii-token"}
+                    body: {
+                        "userToken": "2288e676-d0bb-4d29-8131-7cff268ba012",
+                        "preferences": {
+                            "contexts": {
+                                "gpii-default": {
+                                    "name": "Default preferences",
+                                    "preferences": {
+                                        "gpii_firstDiscovery_language": "en-US"
+                                    }
+                                }
+                            }
+                        }
+                    }
                 },
                 rawModules: [{
                     tests: [{
                         name: "Test ",
                         type: "test",
                         sequence: [{
-                            func: "{jsonRequest}.send"
+                            funcName: "gpii.tests.firstDiscovery.server.requestTests.setupNock"
+                        }, {
+                            func: "{jsonRequest}.send",
+                            args: [{
+                                "gpii_firstDiscovery_language": "en-US"
+                            }]
                         }, {
                             listener: "gpii.tests.firstDiscovery.server.verifyJSONResponse",
                             event:    "{jsonRequest}.events.onComplete",
                             args:     ["{jsonRequest}.nativeResponse", "{arguments}.0", "{testCaseHolder}.options.expected.response", "{testCaseHolder}.options.expected.body"]
+                        }, {
+                            funcName: "gpii.tests.firstDiscovery.server.requestTests.teardownNock"
                         }]
                     }]
                 }],
@@ -92,6 +115,59 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
         }
     }
 });
+
+gpii.tests.firstDiscovery.server.requestTests.setupNock = function () {
+    var accessTokenModel = {
+        grant_type: "client_credentials",
+        scope: "add_preferences",
+        client_id: "client_first_discovery",
+        client_secret: "client_secret_firstDiscovery"
+    };
+
+    var prefs = {
+        "contexts": {
+            "gpii-default": {
+                "name": "Default preferences",
+                "preferences": {
+                    "gpii_firstDiscovery_language": "en-US"
+                }
+            }
+        }
+    };
+
+    var security = nock("http://10.0.2.2:8081").log(console.log);
+    security.post("/access_token", querystring.stringify(accessTokenModel))
+            .reply(200, {
+                access_token: "first_discovery_access_token",
+                token_type: "Bearer"
+            });
+
+        security.post("/add-preferences", prefs, {
+        reqHeaders: {
+            Authorization: "Bearer first_discovery_access_token"
+        }
+    })
+    .query({view: "firstDiscovery"})
+    .reply(200, {
+        "userToken": "2288e676-d0bb-4d29-8131-7cff268ba012",
+        "preferences": {
+            "contexts": {
+                "gpii-default": {
+                    "name": "Default preferences",
+                    "preferences": {
+                        "gpii_firstDiscovery_language": "en-US"
+                    }
+                }
+            }
+        }
+    });
+};
+
+gpii.tests.firstDiscovery.server.requestTests.teardownNock = function () {
+    nock.isDone();
+    nock.cleanAll();
+    nock.restore();
+};
 
 fluid.test.runTests([
     "gpii.tests.firstDiscovery.server.requestTests"
