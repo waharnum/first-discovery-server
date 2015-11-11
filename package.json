@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jobara/first-discovery-server.git"
+    "url": "git+https://github.com/GPII/first-discovery-server.git"
   },
   "keywords": [
     "preferences",
@@ -25,14 +25,14 @@
     "fluid",
     "infusion"
   ],
-  "author": "Fluid Project",
+  "author": "GPII",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://issues.fluidproject.org/issues/?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
+    "url": "https://issues.gpii.net"
   },
-  "homepage": "http://fluidproject.org",
+  "homepage": "http://gpii.net",
   "dependencies": {
-    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git",
+    "first-discovery": "git+https://github.com/GPII/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
     "infusion": "git://github.com/amb26/infusion.git#539c8dc6bdd2170944c0a4c58da52dd37fb098c0",
     "kettle":  "git://github.com/amb26/kettle.git#c7207e93518b3c61cb6e923f22b1e26f2c365f64",
