@@ -34,8 +34,8 @@
   "dependencies": {
     "first-discovery": "git+https://github.com/GPII/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
-    "infusion": "git://github.com/amb26/infusion.git#539c8dc6bdd2170944c0a4c58da52dd37fb098c0",
-    "kettle": "git://github.com/amb26/kettle.git#c7207e93518b3c61cb6e923f22b1e26f2c365f64",
+    "infusion": "git://github.com/amb26/infusion.git#d9ab2cea604cc3108bdf028d70874d339df22720",
+    "kettle": "git://github.com/amb26/kettle.git#KETTLE-32",
     "dedupe-infusion": "1.0.0"
   },
   "devDependencies": {
