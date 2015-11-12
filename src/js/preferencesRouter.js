@@ -26,7 +26,9 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         accessTokenDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://10.0.2.2:8081/access_token",
+                url: "http://10.0.2.2",
+                port: 8081,
+                path: "/access_token",
                 writable: true,
                 writeMethod: "POST",
                 components: {
@@ -40,7 +42,9 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         preferencesDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://10.0.2.2:8081/add-preferences?view=%view",
+                url: "http://10.0.2.2",
+                port: 8081,
+                path: "/add-preferences?view=%view",
                 writable: true,
                 writeMethod: "POST",
                 termMap: {
