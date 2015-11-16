@@ -32,11 +32,12 @@
   },
   "homepage": "http://gpii.net",
   "dependencies": {
+    "ajv": "^1.4.9",
+    "dedupe-infusion": "1.0.0",
     "first-discovery": "git+https://github.com/GPII/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
     "infusion": "git://github.com/amb26/infusion.git#d9ab2cea604cc3108bdf028d70874d339df22720",
-    "kettle": "git://github.com/amb26/kettle.git#KETTLE-32",
-    "dedupe-infusion": "1.0.0"
+    "kettle": "git://github.com/amb26/kettle.git#KETTLE-32"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

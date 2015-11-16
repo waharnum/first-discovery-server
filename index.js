@@ -12,7 +12,11 @@ https://raw.githubusercontent.com/GPII/first-discovery-server/master/LICENSE.txt
 
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
+var path = require("path");
 require("./src/js/firstDiscoveryServer.js");
+require("./src/js/config.js");
+
+var oauth2Config = path.resolve(__dirname, "./fd_security_config.json");
 
 // TODO: Add security server configuration
 // The idea will be to use environment variables
