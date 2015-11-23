@@ -25,67 +25,76 @@ require("gpii-express/tests/js/lib/test-helpers.js");
 fluid.defaults("gpii.tests.firstDiscovery.server", {
     gradeNames: ["gpii.firstDiscovery.server"],
     port: "{testEnvironment}.options.port",
+    preferencesConfig: {
+        "securityServer": {
+            "port": "8081",
+            "hostname": "http://localhost",
+            "paths": {
+                "token": "/access_token",
+                "preferences": "/add-preferences?view=firstDiscovery"
+            }
+        },
+        "authentication": {
+            "grant_type": "client_credentials",
+            "scope": "add_preferences",
+            "client_id": "client_id_first_discovery",
+            "client_secret": "client_secret_first_discovery"
+        }
+    },
     events: {
         onStarted: "{testEnvironment}.events.onStarted"
     }
 });
+
+gpii.tests.firstDiscovery.server.access = {
+    access_token: "first_discovery_access_token",
+    token_type: "Bearer"
+};
+
+gpii.tests.firstDiscovery.server.prefToSet = {
+    "gpii_firstDiscovery_language": "en-US"
+};
+
+gpii.tests.firstDiscovery.server.prefResponse = {
+    "userToken": "2288e676-d0bb-4d29-8131-7cff268ba012",
+    "preferences": {
+        "contexts": {
+            "gpii-default": {
+                "name": "Default preferences",
+                "preferences": gpii.tests.firstDiscovery.server.prefToSet
+            }
+        }
+    }
+};
+
+gpii.tests.firstDiscovery.server.removeQueryParam = function (path) {
+    return path.split("?")[0];
+};
 
 gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, expectedResponse, expectedBody) {
     gpii.express.tests.helpers.isSaneResponse(jqUnit, response, body, 200);
     jqUnit.assertDeepEq("The body should be as expected...", expectedBody, JSON.parse(body));
 };
 
-gpii.tests.firstDiscovery.server.setupNock = function () {
-    var accessTokenModel = {
-        grant_type: "client_credentials",
-        scope: "add_preferences",
-        client_id: "client_first_discovery",
-        client_secret: "client_secret_firstDiscovery"
-    };
-
-    var prefs = {
-        "contexts": {
-            "gpii-default": {
-                "name": "Default preferences",
-                "preferences": {
-                    "gpii_firstDiscovery_language": "en-US"
-                }
-            }
-        }
-    };
-
-    var security = nock("http://10.0.2.2:8081");
+gpii.tests.firstDiscovery.server.setupNock = function (config, access, prefs) {
+    console.log("CONFIG:", JSON.stringify(config));
+    var security = nock(config.securityServer.hostname + ":" + config.securityServer.port);
 
     // log nock matches
     security.log(console.log);
 
     // mock POST requests to "/access_token"
-    security.post("/access_token", querystring.stringify(accessTokenModel))
-        .reply(200, {
-            access_token: "first_discovery_access_token",
-            token_type: "Bearer"
-        });
+    security.post(gpii.tests.firstDiscovery.server.removeQueryParam(config.securityServer.paths.token), querystring.stringify(config.authentication))
+        .reply(200, access);
 
     // mock POST requests to "/add-preferences"
-    security.post("/add-preferences", prefs, {
+    security.post(gpii.tests.firstDiscovery.server.removeQueryParam(config.securityServer.paths.preferences), prefs, {
         reqHeaders: {
             Authorization: "Bearer first_discovery_access_token"
         }
     })
         .query({view: "firstDiscovery"})
-        .reply(200, {
-            "userToken": "2288e676-d0bb-4d29-8131-7cff268ba012",
-            "preferences": {
-                "contexts": {
-                    "gpii-default": {
-                        "name": "Default preferences",
-                        "preferences": {
-                            "gpii_firstDiscovery_language": "en-US"
-                        }
-                    }
-                }
-            }
-    });
+        .reply(200, gpii.tests.firstDiscovery.server.prefResponse);
 };
 
 gpii.tests.firstDiscovery.server.teardownNock = function () {
@@ -127,31 +136,18 @@ fluid.defaults("gpii.tests.firstDiscovery.server.requestTests", {
             options: {
                 expected: {
                     response: 200,
-                    body: {
-                        "userToken": "2288e676-d0bb-4d29-8131-7cff268ba012",
-                        "preferences": {
-                            "contexts": {
-                                "gpii-default": {
-                                    "name": "Default preferences",
-                                    "preferences": {
-                                        "gpii_firstDiscovery_language": "en-US"
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    body: gpii.tests.firstDiscovery.server.prefResponse
                 },
                 rawModules: [{
                     tests: [{
                         name: "Test ",
                         type: "test",
                         sequence: [{
-                            funcName: "gpii.tests.firstDiscovery.server.setupNock"
+                            funcName: "gpii.tests.firstDiscovery.server.setupNock",
+                            args: ["{express}.options.preferencesConfig", gpii.tests.firstDiscovery.server.access, gpii.tests.firstDiscovery.server.prefResponse.preferences]
                         }, {
                             func: "{jsonRequest}.send",
-                            args: [{
-                                "gpii_firstDiscovery_language": "en-US"
-                            }]
+                            args: [gpii.tests.firstDiscovery.server.prefToSet]
                         }, {
                             listener: "gpii.tests.firstDiscovery.server.verifyJSONResponse",
                             event:    "{jsonRequest}.events.onComplete",
