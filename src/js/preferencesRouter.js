@@ -22,13 +22,14 @@ require("gpii-express");
 
 fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
     gradeNames: ["gpii.express.handler"],
+    config: {},
     components: {
         accessTokenDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://10.0.2.2",
-                port: 8081,
-                path: "/access_token",
+                url: "{handler}.options.config.securityServer.hostname",
+                port: "{handler}.options.config.securityServer.port",
+                path: "{handler}.options.config.securityServer.paths.token",
                 writable: true,
                 writeMethod: "POST",
                 components: {
@@ -42,9 +43,9 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         preferencesDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://10.0.2.2",
-                port: 8081,
-                path: "/add-preferences?view=%view",
+                url: "{handler}.options.config.securityServer.hostname",
+                port: "{handler}.options.config.securityServer.port",
+                path: "{handler}.options.config.securityServer.paths.preferences",
                 writable: true,
                 writeMethod: "POST",
                 termMap: {
@@ -108,15 +109,9 @@ gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, er
  *                      reject an error object will be returned.
  */
 gpii.firstDiscovery.server.preferences.handler.getAccessToken = function (that) {
-    var accessTokenModel = {
-        grant_type: "client_credentials",
-        scope: "add_preferences",
-        client_id: "client_first_discovery",
-        client_secret: "client_secret_firstDiscovery"
-    };
 
     var promise = fluid.promise();
-    var atPromise = that.accessTokenDataSource.set(null, accessTokenModel);
+    var atPromise = that.accessTokenDataSource.set(null, that.options.config.authentication);
 
     atPromise.then(function (response) {
         var access = JSON.parse(response);

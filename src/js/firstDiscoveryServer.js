@@ -32,6 +32,7 @@ fluid.defaults("gpii.firstDiscovery.server", {
             }
         }
     },
+    preferencesConfig: {},
     components: {
         json: {
             type: "gpii.express.middleware.bodyparser.json"
@@ -60,5 +61,8 @@ fluid.defaults("gpii.firstDiscovery.server", {
     distributeOptions: [{
         source: "{that}.options.port",
         target: "{that}.options.config.express.port"
+    }, {
+        source: "{that}.options.preferencesConfig",
+        target: "{that gpii.firstDiscovery.server.preferences.handler}.options.config"
     }]
 });
