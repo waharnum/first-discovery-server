@@ -21,7 +21,7 @@ var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src")
 
 fluid.defaults("gpii.firstDiscovery.server", {
     gradeNames: ["gpii.express"],
-    port: 8080,
+    port: 8088,
     config: {
         express: {
             baseUrl: {
