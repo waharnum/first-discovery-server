@@ -85,8 +85,8 @@ gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap = {
         "port": "GPII_OAUTH2_TCP_PORT",
         "hostname": "GPII_OAUTH2_HOST_NAME",
         "paths": {
-            "token": "GPII_OAUTH2_PATH_ACCESS_TOKEN",
-            "preferences": "GPII_OAUTH2_PATH_ADD_PREFERENCES"
+            "token": "GPII_OAUTH2_ACCESS_TOKEN_PATH",
+            "preferences": "GPII_OAUTH2_ADD_PREFERENCES_PATH"
         }
     },
     "authentication": {

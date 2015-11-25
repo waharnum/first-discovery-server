@@ -67,8 +67,8 @@ jqUnit.test("gpii.firstDiscovery.server.config.getConfigFile", function () {
 gpii.tests.envToSet = {
     "GPII_OAUTH2_TCP_PORT": "8888",
     "GPII_OAUTH2_HOST_NAME": "http://test.localhost",
-    "GPII_OAUTH2_PATH_ACCESS_TOKEN": "/token",
-    "GPII_OAUTH2_PATH_ADD_PREFERENCES": "/preferences",
+    "GPII_OAUTH2_ACCESS_TOKEN_PATH": "/token",
+    "GPII_OAUTH2_ADD_PREFERENCES_PATH": "/preferences",
     "GPII_OAUTH2_AUTH_GRANT_TYPE": "grant_type",
     "GPII_OAUTH2_AUTH_SCOPE": "auth_scope",
     "GPII_OAUTH2_AUTH_CLIENT_ID": "auth_client_id",
