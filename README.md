@@ -17,7 +17,16 @@ node index.js
 # e.g. http://localhost:8088/demos/prefsServerIntegration
 ```
 
-_**NOTE**: See the [development](#development) section for information on using vagrant to create a virtualized instance._
+_**NOTE**: See the [development](#development) section for information on using Vagrant to create a virtualized instance._
+
+### Configuration ###
+
+The preferences server connection can be configured via a config file, fd_security_config.json, stored at the server root or environment variables.
+
+* [Example Config](fd_security_config.json.example)
+* See [ENVMap](src/js/config.js) for mapping of Environment Variables to the config.
+
+_**NOTE**: If the security server is running on the host machine and you are using vagrant to host the First Discovery Server, try using `http://10.0.2.2` instead of `http://localhost` when configuring the `hostname`._
 
 ### Resources ####
 
@@ -56,14 +65,3 @@ Once you've cloned the repository onto your local system you'll only need to run
 _**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.yml](provisioning/vars.yml) file or 8088 is already in use on your host machine, the actual URL may be different._
 
 Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.
-
-#### Configuration ####
-
-The preferences server connection can be configured via config file, fd_security_config.json, stored at the server root or environment variables. All values must be supplied.
-
-* [Example Config](fd_security_config.json.example)
-* See [ENVMap](src/js/config.js) for mapping of Environment Variables to the config.
-
-
-
-If the security server is running on the host machine, try using `http://10.0.2.2` instead of `http://localhost` when configuring the `hostname`.
