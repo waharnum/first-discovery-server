@@ -53,7 +53,7 @@ Vagrant and Ansible configuration has been provided to make the setup of a devel
 
 Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. By default, the server will be accessible on your host machine at `http://localhost:8088`. (e.g. `http://localhost:8088/demos`).
 
-_**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the vars.yml file or 8088 is already in use on your host machine, the actual URL may be different._
+_**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.yml](provisioning/vars.yml) file or 8088 is already in use on your host machine, the actual URL may be different._
 
 Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.
 
@@ -62,7 +62,7 @@ Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/
 The preferences server connection can be configured via config file, fd_security_config.json, stored at the server root or environment variables. All values must be supplied.
 
 * [Example Config](fd_security_config.json.example)
-* See [ENVMap](config.js) for mapping of Environment Variables to the config.
+* See [ENVMap](src/js/config.js) for mapping of Environment Variables to the config.
 
 
 
