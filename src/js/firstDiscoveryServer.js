@@ -5,15 +5,15 @@ Licensed under the New BSD license. You may not use this file except in
 compliance with this License.
 
 You may obtain a copy of the License at
-https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
+https://raw.githubusercontent.com/GPII/first-discovery-server/master/LICENSE.txt
 */
 
 "use strict";
 
-var fluid = fluid || require("infusion");
-var gpii = fluid.registerNamespace("gpii");
+var fluid = require("infusion");
 
 require("gpii-express");
+require("./preferencesRouter.js");
 
 var path = require("path");
 var fdDemosDir = path.resolve(__dirname, "../../node_modules/first-discovery/demos");
@@ -21,10 +21,15 @@ var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src")
 
 fluid.defaults("gpii.firstDiscovery.server", {
     gradeNames: ["gpii.express"],
+    port: 8088,
     config: {
         express: {
-            port: 8080,
-            baseUrl: "http://localhost:8080"
+            baseUrl: {
+                expander: {
+                    funcName: "fluid.stringTemplate",
+                    args: ["http://localhost:%port", {port: "{that}.options.config.express.port"}]
+                }
+            }
         }
     },
     components: {
@@ -41,8 +46,16 @@ fluid.defaults("gpii.firstDiscovery.server", {
                 path:    "/src",
                 content: fdSrcDir
             }
+        },
+        prefsRouter: {
+            type: "gpii.firstDiscovery.server.preferences.router",
+            options: {
+                path: "/user"
+            }
         }
-    }
+    },
+    distributeOptions: [{
+        source: "{that}.options.port",
+        target: "{that}.options.config.express.port"
+    }]
 });
-
-gpii.firstDiscovery.server();

@@ -4,11 +4,17 @@
   "description": "A server side implementation to serve a First Discovery Editor instance and provide a means for storing preferences to the GPII Preferences server.",
   "main": "index.js",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.10.0",
+    "npm": ">=2.0.0"
+  },
+  "scripts": {
+      "dedupe-infusion": "node -e \"require('dedupe-infusion')()\"",
+      "fullinstall": "npm install && npm run dedupe-infusion",
+      "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jobara/first-discovery-server.git"
+    "url": "git+https://github.com/GPII/first-discovery-server.git"
   },
   "keywords": [
     "preferences",
@@ -19,21 +25,23 @@
     "fluid",
     "infusion"
   ],
-  "author": "Fluid Project",
+  "author": "GPII",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://issues.fluidproject.org/browse/FLOE-420?jql=project%20%3D%20FLOE%20AND%20component%20%3D%20%22First%20Discovery%22"
+    "url": "https://issues.gpii.net"
   },
-  "homepage": "http://fluidproject.org",
+  "homepage": "http://gpii.net",
   "dependencies": {
-    "first-discovery": "git+https://github.com/fluid-project/first-discovery.git",
+    "first-discovery": "git+https://github.com/GPII/first-discovery.git",
     "gpii-express": "git+https://github.com/GPII/gpii-express.git",
-    "infusion": "git+https://github.com/fluid-project/infusion.git"
+    "infusion": "2.0.0-dev.20151007T134312Z.8c33cd4",
+     "dedupe-infusion": "1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "~0.9.0",
     "grunt-jsonlint": "1.0.4",
-    "jqUnit": "git+https://github.com/fluid-project/node-jqUnit.git"
+    "jqUnit": "git://github.com/fluid-project/node-jqUnit.git#d46bb932fa4069770852c51a92182939958f2d75",
+    "kettle":  "git://github.com/amb26/kettle.git#33e2826e78315c6d29b13c8ba810f54fef29e8ac"
   }
 }
