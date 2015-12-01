@@ -34,18 +34,18 @@ gpii.firstDiscovery.server.config.getConfigFile = function (file) {
 };
 
 /**
- * Transforms an ENVMap into a config object
+ * Transforms an EnvMap into a config object
  *
- * @param ENVMap {Object} - a map of Environment variables that is transformed into a
+ * @param EnvMap {Object} - a map of Environment variables that is transformed into a
  *                          configuration object.
  * @returns {Object} - the configuration object
  */
-gpii.firstDiscovery.server.config.getENV = function (ENVMap) {
-    return fluid.transform(ENVMap, function (ENV) {
-        if (fluid.isPlainObject(ENV)) {
-            return gpii.firstDiscovery.server.config.getENV(ENV);
+gpii.firstDiscovery.server.config.getEnv = function (EnvMap) {
+    return fluid.transform(EnvMap, function (Env) {
+        if (fluid.isPlainObject(Env)) {
+            return gpii.firstDiscovery.server.config.getEnv(Env);
         } else {
-            return process.env[ENV];
+            return process.env[Env];
         }
     });
 };
@@ -59,15 +59,15 @@ gpii.firstDiscovery.server.config.getENV = function (ENVMap) {
  * of the correct type and that all required properties are provided.
  *
  * @param file {String} - path to the config file
- * @param ENVMap {Object} - a map of Environment variables that is transformed into a
+ * @param EnvMap {Object} - a map of Environment variables that is transformed into a
  *                          configuration object.
  * @param schema {Object} - a JSON schema document based on AJV (see: https://github.com/epoberezkin/ajv)
  * @returns {Object} - the combined and validated configuraiton object
  */
-gpii.firstDiscovery.server.config.getConfig = function (file, ENVMap, schema) {
+gpii.firstDiscovery.server.config.getConfig = function (file, EnvMap, schema) {
     var validator = ajv();
     var configFile = gpii.firstDiscovery.server.config.getConfigFile(file);
-    var envConfig = gpii.firstDiscovery.server.config.getENV(ENVMap);
+    var envConfig = gpii.firstDiscovery.server.config.getEnv(EnvMap);
     var config = $.extend(true, {}, configFile, envConfig);
     var isValid = validator.validate(schema, config);
 
@@ -80,7 +80,7 @@ gpii.firstDiscovery.server.config.getConfig = function (file, ENVMap, schema) {
     }
 };
 
-gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap = {
+gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap = {
     "securityServer": {
         "port": "GPII_OAUTH2_TCP_PORT",
         "hostname": "GPII_OAUTH2_HOST_NAME",

@@ -17,9 +17,9 @@ require("./src/js/firstDiscoveryServer.js");
 require("./src/js/config.js");
 
 var configFile = path.join(__dirname, "./fd_security_config.json");
-var ENVMap = gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap;
+var EnvMap = gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap;
 var schema = gpii.firstDiscovery.server.config.oauth2.clientCredential.schema;
-var oauth2Config = gpii.firstDiscovery.server.config.getConfig(configFile, ENVMap, schema);
+var oauth2Config = gpii.firstDiscovery.server.config.getConfig(configFile, EnvMap, schema);
 
 gpii.firstDiscovery.server({
     port: process.env.FIRST_DISCOVERY_SERVER_TCP_PORT,

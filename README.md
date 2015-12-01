@@ -24,7 +24,7 @@ _**NOTE**: See the [development](#development) section for information on using 
 The preferences server connection can be configured via a config file, fd_security_config.json, stored at the server root or environment variables.
 
 * [Example Config](fd_security_config.json.example)
-* See [ENVMap](src/js/config.js) for mapping of Environment Variables to the config.
+* See [EnvMap](src/js/config.js) for mapping of Environment Variables to the config.
 
 _**NOTE**: If the security server is running on the host machine and you are using vagrant to host the First Discovery Server, try using `http://10.0.2.2` instead of `http://localhost` when configuring the `hostname`._
 

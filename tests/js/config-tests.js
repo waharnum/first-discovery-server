@@ -92,13 +92,13 @@ gpii.tests.expectedEnvConfig = {
     }
 };
 
-jqUnit.test("gpii.firstDiscovery.server.config.getENV", function () {
+jqUnit.test("gpii.firstDiscovery.server.config.getEnv", function () {
     var env = gpii.tests.env();
 
     // register the environment variables
     env.set(gpii.tests.envToSet);
 
-    var config = gpii.firstDiscovery.server.config.getENV(gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap);
+    var config = gpii.firstDiscovery.server.config.getEnv(gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap);
     jqUnit.assertDeepEq("The config should have been loaded from the environement variables", gpii.tests.expectedEnvConfig, config);
 
     // remove original environment variables
@@ -112,7 +112,7 @@ jqUnit.test("gpii.firstDiscovery.server.config.getConfig", function () {
     try {
         gpii.firstDiscovery.server.config.getConfig(
             missingConfigPath,
-            gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap,
+            gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap,
             gpii.firstDiscovery.server.config.oauth2.clientCredential.schema
         );
     } catch (e) {
@@ -121,7 +121,7 @@ jqUnit.test("gpii.firstDiscovery.server.config.getConfig", function () {
 
     var configFile = gpii.firstDiscovery.server.config.getConfig(
         testConfigPath,
-        gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap,
+        gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap,
         gpii.firstDiscovery.server.config.oauth2.clientCredential.schema
     );
 
@@ -132,7 +132,7 @@ jqUnit.test("gpii.firstDiscovery.server.config.getConfig", function () {
 
     var configEnv = gpii.firstDiscovery.server.config.getConfig(
         missingConfigPath,
-        gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap,
+        gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap,
         gpii.firstDiscovery.server.config.oauth2.clientCredential.schema
     );
 
@@ -140,11 +140,11 @@ jqUnit.test("gpii.firstDiscovery.server.config.getConfig", function () {
 
     var configCombined = gpii.firstDiscovery.server.config.getConfig(
         testConfigPath,
-        gpii.firstDiscovery.server.config.oauth2.clientCredential.ENVMap,
+        gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap,
         gpii.firstDiscovery.server.config.oauth2.clientCredential.schema
     );
 
-    jqUnit.assertDeepEq("The config should have been loaded with ENV taking precedence", gpii.tests.expectedEnvConfig, configCombined);
+    jqUnit.assertDeepEq("The config should have been loaded with Env taking precedence", gpii.tests.expectedEnvConfig, configCombined);
 
     // remove original environment variables
     env.remove();
