@@ -10,18 +10,8 @@ https://raw.githubusercontent.com/GPII/first-discovery-server/master/LICENSE.txt
 
 "use strict";
 
-var fluid = require("infusion");
-var gpii = fluid.registerNamespace("gpii");
-var path = require("path");
-require("./src/js/firstDiscoveryServer.js");
-require("./src/js/config.js");
-
-var configFile = path.join(__dirname, "./fd_security_config.json");
-var EnvMap = gpii.firstDiscovery.server.config.oauth2.clientCredential.EnvMap;
-var schema = gpii.firstDiscovery.server.config.oauth2.clientCredential.schema;
-var oauth2Config = gpii.firstDiscovery.server.config.getConfig(configFile, EnvMap, schema);
-
-gpii.firstDiscovery.server({
-    port: process.env.FIRST_DISCOVERY_SERVER_TCP_PORT,
-    preferencesConfig: oauth2Config
+var kettle = require("kettle");
+kettle.config.loadConfig({
+    configPath:"./src/config",
+    configName: "vagrant"
 });
