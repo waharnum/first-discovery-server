@@ -4,29 +4,50 @@ A server side implementation to serve a [First Discovery Editor](https://github.
 
 ## Usage ##
 
-By default the server will run from port 8088, but can be configured to use a different port by setting the FIRST_DISCOVERY_SERVER_TCP_PORT environment variable to a different port number.
-
-```bash
-# Set the servers port number with an environment variable
-# FIRST_DISCOVERY_SERVER_TCP_PORT=8088
-
-#launching the server
-node index.js
-
-# The First Discovery Tool will be reachable off of the /demos path
-# e.g. http://localhost:8088/demos/prefsServerIntegration
-```
-
-_**NOTE**: See the [development](#development) section for information on using Vagrant to create a virtualized instance._
+By default the server will run from port 8088, see [Configuration](#configuration) to use a different port.
+The First Discovery Tool will be reachable off of the /demos path e.g. http://localhost:8088/demos/prefsServerIntegration
 
 ### Configuration ###
 
-The preferences server connection can be configured via a config file, fd_security_config.json, stored at the server root or environment variables.
+The First Discovery Server can be configured via [Kettle Configs](https://github.com/amb26/kettle/blob/KETTLE-32/README.md#structure-of-a-kettle-config). A set of these are provided with the server in the [config](./src/config) directory.
 
-* [Example Config](fd_security_config.json.example)
-* See [EnvMap](src/js/config.js) for mapping of Environment Variables to the config.
+The [`gpii.firstDiscovery.server.configurator`](./src/js/ffirstDiscoveryServer.js) grade defines a default schema for which the configuration is validated against. If the validation fails, the application will throw and error.
 
-_**NOTE**: If the security server is running on the host machine and you are using vagrant to host the First Discovery Server, try using `http://10.0.2.2` instead of `http://localhost` when configuring the `hostname`._
+### Launching ###
+
+The First Discovery Server can be launched as a Kettle application by making use of [Kettle Configs](https://github.com/amb26/kettle/blob/KETTLE-32/README.md#structure-of-a-kettle-config).
+
+There are two typical ways of launching a Kettle app, programmatically and from command line
+
+(See: [Starting a Kettle application](https://github.com/amb26/kettle/blob/KETTLE-32/README.md#starting-a-kettle-application))
+
+#### Programmatically ####
+
+```javascript
+// require the kettle module
+var kettle = require("kettle");
+
+// load the config
+kettle.config.loadConfig({
+    // path to the config directory
+    configPath:"./src/config",
+
+    // name of the config to load, without the file extension
+    configName: "vagrant"
+});
+```
+
+#### Command Line #####
+
+```bash
+# Call Kettle's init.js script with the
+# configPath and configName
+node node_modules/kettle/init.js <configPath> [<configName>]
+
+# or using an environment variable to specify
+# the configName
+NODE_EVN=<configName> node node_modules/kettle/init.js <configPath>
+```
 
 ### Resources ####
 
@@ -65,3 +86,7 @@ Once you've cloned the repository onto your local system you'll only need to run
 _**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.yml](provisioning/vars.yml) file or 8088 is already in use on your host machine, the actual URL may be different._
 
 Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.
+
+### Secrets ###
+
+the `client_id` and `client_secret` are confidential and should not be committed. You can pass these values in with environment variables to the VM or making use a config file that isn't committed.
