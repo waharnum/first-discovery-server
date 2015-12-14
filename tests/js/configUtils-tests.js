@@ -47,12 +47,7 @@ jqUnit.test("gpii.tests.firstDiscovery.schema - valid", function () {
 });
 
 jqUnit.test("gpii.tests.firstDiscovery.schema - invalid", function () {
-    jqUnit.expect(1);
-    try {
-        gpii.tests.firstDiscovery.schema();
-    } catch (e) {
-        jqUnit.assert("The schema should have failed validation and thrown an error");
-    }
+    jqUnit.expectFrameworkDiagnostic("The schema should have failed validation and thrown an error", gpii.tests.firstDiscovery.schema, "data.toValidate is a required property");
 });
 
 fluid.defaults("gpii.tests.firstDiscovery.configurator", {
