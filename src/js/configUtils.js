@@ -22,7 +22,7 @@ fluid.defaults("gpii.resolvers.env", {
     gradeNames: ["fluid.component", "fluid.resolveRootSingle"],
     singleRootType: "gpii.resolvers.env",
     members: {
-        env: process.env
+        vars: process.env
     }
 });
 
