@@ -46,7 +46,7 @@ node node_modules/kettle/init.js <configPath> [<configName>]
 
 # or using an environment variable to specify
 # the configName
-NODE_EVN=<configName> node node_modules/kettle/init.js <configPath>
+NODE_ENV=<configName> node node_modules/kettle/init.js <configPath>
 ```
 
 ### Resources ####
