@@ -1,0 +1,16 @@
+nodejs_app_name: first-discovery-server
+
+nodejs_app_commands:
+  - npm run fullinstall
+
+# We load first-discovery-server to /opt/first-discovery-server in the Dockerfile
+# And configure the ENV there that we use here
+
+nodejs_app_install_dir: "{{ lookup('env', 'INSTALL_DIR') }}"
+
+nodejs_app_git_clone: false
+
+nodejs_app_start_script: index.js
+
+nodejs_app_env_vars:
+  - NODE_ENV="{{ lookup('env', 'NODE_ENV') }}"
