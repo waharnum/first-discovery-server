@@ -11,7 +11,7 @@ The First Discovery Tool will be reachable off of the /demos path e.g. http://lo
 
 The First Discovery Server can be configured via [Kettle Configs](https://github.com/amb26/kettle/blob/KETTLE-32/README.md#structure-of-a-kettle-config). A set of these are provided with the server in the [config](./src/config) directory.
 
-The [`gpii.firstDiscovery.server.configurator`](./src/js/ffirstDiscoveryServer.js) grade defines a default schema for which the configuration is validated against. If the validation fails, the application will throw and error.
+The [`gpii.firstDiscovery.server.configurator`](./src/js/firstDiscoveryServer.js) grade defines a default schema for which the configuration is validated against. If the validation fails, the application will throw and error.
 
 ### Launching ###
 
