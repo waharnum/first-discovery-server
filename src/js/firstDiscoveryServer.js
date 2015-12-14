@@ -69,7 +69,7 @@ fluid.defaults("gpii.firstDiscovery.server", {
 });
 
 fluid.defaults("gpii.firstDiscovery.server.configurator", {
-    gradeNames: ["gpii.firstDiscovery.configurator"],
+    gradeNames: ["gpii.configurator"],
     "components": {
         "fdServer": {
             "type": "gpii.firstDiscovery.server",
