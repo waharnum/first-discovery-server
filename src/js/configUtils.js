@@ -18,11 +18,11 @@ var gpii = fluid.registerNamespace("gpii");
  * Exposes the environment variables available to the node process, to a
  * form that is accessible via the IoC system.
  */
-fluid.defaults("gpii.firstDiscovery.environment", {
+fluid.defaults("gpii.resolvers.env", {
     gradeNames: ["fluid.component", "fluid.resolveRootSingle"],
-    singleRootType: "gpii.firstDiscovery.environment",
+    singleRootType: "gpii.resolvers.env",
     members: {
-        env: process.env
+        vars: process.env
     }
 });
 
@@ -33,7 +33,7 @@ fluid.defaults("gpii.firstDiscovery.environment", {
  *
  * @throws {Error} - by default will throw an error if validation fails
  */
-fluid.defaults("gpii.firstDiscovery.schema", {
+fluid.defaults("gpii.schema", {
     gradeNames: ["fluid.component"],
     schema: {},
     events: {
@@ -41,12 +41,12 @@ fluid.defaults("gpii.firstDiscovery.schema", {
         validationError: null
     },
     listeners: {
-        validationError: "gpii.firstDiscovery.schema.error",
+        "validationError.fail": "fluid.fail",
         "onCreate.validate": "{that}.validate"
     },
     invokers: {
         validate: {
-            funcName: "gpii.firstDiscovery.schema.validate",
+            funcName: "gpii.schema.validate",
             args: ["{that}.options.schema", "{that}.options", "{that}.events.validated.fire", "{that}.events.validationError.fire"]
         }
     }
@@ -60,7 +60,7 @@ fluid.defaults("gpii.firstDiscovery.schema", {
  * @param success {Function} - the success callback
  * @param error {Function} - the error callback
  */
-gpii.firstDiscovery.schema.validate = function (schema, toValidate, success, error) {
+gpii.schema.validate = function (schema, toValidate, success, error) {
     var validator = ajv();
     var isValid = validator.validate(schema, toValidate);
 
@@ -72,24 +72,14 @@ gpii.firstDiscovery.schema.validate = function (schema, toValidate, success, err
 };
 
 /**
- * Throws an error with the provide errorMsg
- *
- * @param errorMsg {String} - the error message to be used in the Error
- * @throws {Error} - throws an error with the provide errorMsg
- */
-gpii.firstDiscovery.schema.error = function (errorMsg) {
-    throw new Error(errorMsg);
-};
-
-/**
  * A base configurator grade which can be used to set up the construction and
  * validation of the configuration for a component.
  */
-fluid.defaults("gpii.firstDiscovery.configurator", {
-    gradeNames: ["gpii.firstDiscovery.schema"],
+fluid.defaults("gpii.configurator", {
+    gradeNames: ["gpii.schema"],
     components: {
         environment: {
-            type: "gpii.firstDiscovery.environment"
+            type: "gpii.resolvers.env"
         }
     }
 });

@@ -16,13 +16,13 @@ var jqUnit = require("node-jqunit");
 
 require("../../src/js/configUtils.js");
 
-jqUnit.test("gpii.firstDiscovery.environment", function () {
-    var environment = gpii.firstDiscovery.environment();
-    jqUnit.assertDeepEq("process.env and the component's env property should be equivalent", process.env, environment.env);
+jqUnit.test("gpii.resolvers.env", function () {
+    var environment = gpii.resolvers.env();
+    jqUnit.assertDeepEq("process.env and the component's vars property should be equivalent", process.env, environment.vars);
 });
 
 fluid.defaults("gpii.tests.firstDiscovery.schema", {
-    gradeNames: ["gpii.firstDiscovery.schema"],
+    gradeNames: ["gpii.schema"],
     schema: {
         "required": ["toValidate"],
         "properties": {
@@ -56,7 +56,7 @@ jqUnit.test("gpii.tests.firstDiscovery.schema - invalid", function () {
 });
 
 fluid.defaults("gpii.tests.firstDiscovery.configurator", {
-    gradeNames: ["gpii.firstDiscovery.configurator"],
+    gradeNames: ["gpii.configurator"],
     schema: {
         required: ["components"],
         properties: {
@@ -67,8 +67,8 @@ fluid.defaults("gpii.tests.firstDiscovery.configurator", {
     }
 });
 
-jqUnit.test("gpii.firstDiscovery.configurator", function () {
+jqUnit.test("gpii.configurator", function () {
     jqUnit.expect(1);
     var configurator = gpii.tests.firstDiscovery.configurator();
-    jqUnit.assertDeepEq("process.env and the environment subcomponent's env property should be equivalent", process.env, configurator.environment.env);
+    jqUnit.assertDeepEq("process.env and the environment subcomponent's vars property should be equivalent", process.env, configurator.environment.vars);
 });
