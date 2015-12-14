@@ -41,7 +41,7 @@ fluid.defaults("gpii.schema", {
         validationError: null
     },
     listeners: {
-        validationError: "gpii.schema.error",
+        "validationError.fail": "fluid.fail",
         "onCreate.validate": "{that}.validate"
     },
     invokers: {
@@ -69,16 +69,6 @@ gpii.schema.validate = function (schema, toValidate, success, error) {
     } else {
         error(validator.errorsText());
     }
-};
-
-/**
- * Throws an error with the provide errorMsg
- *
- * @param errorMsg {String} - the error message to be used in the Error
- * @throws {Error} - throws an error with the provide errorMsg
- */
-gpii.schema.error = function (errorMsg) {
-    throw new Error(errorMsg);
 };
 
 /**
