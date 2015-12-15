@@ -17,8 +17,8 @@ require("./preferencesRouter.js");
 require("./configUtils.js");
 
 var path = require("path");
-var fdDemosDir = path.resolve(__dirname, "../../node_modules/first-discovery/demos");
-var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src");
+var fdDemosDir = path.resolve(__dirname, "../../node_modules/gpii-first-discovery/demos");
+var fdSrcDir = path.resolve(__dirname, "../../node_modules/gpii-first-discovery/src");
 
 fluid.defaults("gpii.firstDiscovery.server", {
     gradeNames: ["gpii.express"],
@@ -69,7 +69,7 @@ fluid.defaults("gpii.firstDiscovery.server", {
 });
 
 fluid.defaults("gpii.firstDiscovery.server.configurator", {
-    gradeNames: ["gpii.configurator"],
+    gradeNames: ["gpii.schema"],
     "components": {
         "fdServer": {
             "type": "gpii.firstDiscovery.server",
