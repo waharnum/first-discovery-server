@@ -89,4 +89,10 @@ Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/
 
 ### Secrets ###
 
-the `client_id` and `client_secret` are confidential and should not be committed. You can pass these values in with environment variables to the VM or making use a config file that isn't committed.
+the `client_id` and `client_secret` are confidential and should not be committed. Vagrant is setup to be provisioned with environment variables from a "secrets.yml" file stored in the "provisioning" directory. "secrects.yml" is ignored by git and should not be added to versioning. An example is provided at "[secrects.yml.example](./provisioning/secrets.yml.example)" and takes the form:
+
+```yaml
+secrets_env_vars:
+  - GPII_OAUTH2_AUTH_CLIENT_ID=first_discovery_client_id
+  - GPII_OAUTH2_AUTH_CLIENT_SECRET=first_discovery_client_secret
+```
