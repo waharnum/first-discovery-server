@@ -16,9 +16,16 @@ var jqUnit = require("node-jqunit");
 
 require("../../src/js/configUtils.js");
 
+fluid.defaults("gpii.tests.resolvers.env", {
+    gradeNames: ["fluid.component"],
+    members: {
+        envVars: "{gpii.resolvers.env}.vars"
+    }
+});
+
 jqUnit.test("gpii.resolvers.env", function () {
-    var environment = gpii.resolvers.env();
-    jqUnit.assertDeepEq("process.env and the component's vars property should be equivalent", process.env, environment.vars);
+    var environment = gpii.tests.resolvers.env();
+    jqUnit.assertDeepEq("process.env and the component's vars property should be equivalent", process.env, environment.envVars);
 });
 
 fluid.defaults("gpii.tests.firstDiscovery.schema", {
@@ -48,22 +55,4 @@ jqUnit.test("gpii.tests.firstDiscovery.schema - valid", function () {
 
 jqUnit.test("gpii.tests.firstDiscovery.schema - invalid", function () {
     jqUnit.expectFrameworkDiagnostic("The schema should have failed validation and thrown an error", gpii.tests.firstDiscovery.schema, "data.toValidate is a required property");
-});
-
-fluid.defaults("gpii.tests.firstDiscovery.configurator", {
-    gradeNames: ["gpii.configurator"],
-    schema: {
-        required: ["components"],
-        properties: {
-            "components": {
-                required: ["environment"]
-            }
-        }
-    }
-});
-
-jqUnit.test("gpii.configurator", function () {
-    jqUnit.expect(1);
-    var configurator = gpii.tests.firstDiscovery.configurator();
-    jqUnit.assertDeepEq("process.env and the environment subcomponent's vars property should be equivalent", process.env, configurator.environment.vars);
 });
