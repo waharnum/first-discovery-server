@@ -26,6 +26,11 @@ fluid.defaults("gpii.resolvers.env", {
     }
 });
 
+// Create an instance of gpii.resolvers.env
+fluid.construct("gpii_resolvers_env", {
+    type: "gpii.resolvers.env"
+});
+
 /**
  * Validates a JSON object against a schema.
  * By default the components own options are validated against the provided
@@ -70,16 +75,3 @@ gpii.schema.validate = function (schema, toValidate, success, error) {
         error(validator.errorsText());
     }
 };
-
-/**
- * A base configurator grade which can be used to set up the construction and
- * validation of the configuration for a component.
- */
-fluid.defaults("gpii.configurator", {
-    gradeNames: ["gpii.schema"],
-    components: {
-        environment: {
-            type: "gpii.resolvers.env"
-        }
-    }
-});
