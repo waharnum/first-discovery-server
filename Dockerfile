@@ -1,4 +1,4 @@
-FROM inclusivedesign/nodejs:0.10.40
+FROM inclusivedesign/nodejs:4.2.1
 
 WORKDIR /etc/ansible/playbooks
 

@@ -87,6 +87,10 @@ _**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.y
 
 Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.
 
+### Building and Deploying With Docker ###
+
+- run: `docker run --rm -it -l flowmanager -p 8088:8088 -e GPII_OAUTH2_HOST_NAME=http://flowmanager -e GPII_OAUTH2_TCP_PORT=8081 -e GPII_OAUTH2_AUTH_CLIENT_ID={{ client_id }} -e GPII_OAUTH2_AUTH_CLIENT_SECRET={{ client_secret }} inclusivedesign/first-discovery-server`
+
 ### Secrets ###
 
 the `client_id` and `client_secret` are confidential and should not be committed. You can pass these values in with environment variables to the VM or making use a config file that isn't committed.
