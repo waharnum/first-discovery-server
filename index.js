@@ -10,10 +10,8 @@ https://raw.githubusercontent.com/GPII/first-discovery-server/master/LICENSE.txt
 
 "use strict";
 
-var fluid = require("infusion");
-var gpii = fluid.registerNamespace("gpii");
-require("./src/js/firstDiscoveryServer.js");
-
-gpii.firstDiscovery.server({
-    port: process.env.FIRST_DISCOVERY_SERVER_TCP_PORT
+var kettle = require("kettle");
+kettle.config.loadConfig({
+    configPath: "./src/config",
+    configName: "vagrant"
 });
