@@ -96,11 +96,13 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
  */
 gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error) {
     var errorCode = error.statusCode || 500;
+    fluid.log(fluid.logLevel.WARN, "errorCode:", errorCode);
+    fluid.log(fluid.logLevel.WARN, "error:", error);
     that.sendResponse(errorCode, error);
 };
 
 /**
- * Retrieves the access tokne from the security accessTokenDataSource
+ * Retrieves the access token from the security accessTokenDataSource
  *
  * @param that {Object} - the component
  *
