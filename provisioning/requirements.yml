@@ -1,9 +1,8 @@
 - src: https://github.com/idi-ops/ansible-facts
   name: facts
 
-- src: https://github.com/avtar/ansible-secrets
+- src: https://github.com/idi-ops/ansible-secrets
   name: secrets
 
-- src: https://github.com/avtar/ansible-nodejs
-  version: remotes/origin/secret-env-vars
+- src: https://github.com/idi-ops/ansible-nodejs
   name: nodejs
