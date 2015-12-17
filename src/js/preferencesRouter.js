@@ -12,6 +12,7 @@ https://github.com/fluid-project/first-discovery-server/raw/master/LICENSE.txt
 
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
+var $ = fluid.registerNamespace("jQuery");
 
 require("kettle");
 require("gpii-express");
@@ -61,7 +62,7 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         },
         errorHandler: {
             funcName: "gpii.firstDiscovery.server.preferences.handler.errorHandler",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{that}", "{arguments}.0", "{arguments}.1"]
         },
         successHandler: {
             func: "{that}.sendResponse",
@@ -94,11 +95,15 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
  *                         is included it will be used for the response code.
  *                         Otherwise 500 will be used as the response code.
  */
-gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error) {
-    var errorCode = error.statusCode || 500;
-    fluid.log(fluid.logLevel.WARN, "errorCode:", errorCode);
-    fluid.log(fluid.logLevel.WARN, "error:", error);
-    that.sendResponse(errorCode, error);
+gpii.firstDiscovery.server.preferences.handler.errorHandler = function (that, error, errorMsg) {
+    var errorObj = $.extend(true, {}, error, {
+        statusCode: error.statusCode || 500,
+        message: errorMsg + ": " + error.message,
+        isError: true
+    });
+
+    fluid.log(fluid.logLevel.WARN, errorObj);
+    that.sendResponse(errorObj);
 };
 
 /**
@@ -163,8 +168,12 @@ gpii.firstDiscovery.server.preferences.handler.storePrefs = function (that) {
 
     accessTokenPromise.then(function (access) {
         var storePromise = that.createUser(access, body, view);
-        storePromise.then(that.successHandler, that.errorHandler);
-    }, that.errorHandler);
+        storePromise.then(that.successHandler, function (error) {
+            that.errorHandler(error, "Failed to store Preferences");
+        });
+    }, function (error) {
+        that.errorHandler(error, "Failed to retrieve access token");
+    });
 };
 
 
