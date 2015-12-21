@@ -14,10 +14,11 @@ var fluid = require("infusion");
 
 require("gpii-express");
 require("./preferencesRouter.js");
+require("./configUtils.js");
 
 var path = require("path");
-var fdDemosDir = path.resolve(__dirname, "../../node_modules/first-discovery/demos");
-var fdSrcDir = path.resolve(__dirname, "../../node_modules/first-discovery/src");
+var fdDemosDir = path.resolve(__dirname, "../../node_modules/gpii-first-discovery/demos");
+var fdSrcDir = path.resolve(__dirname, "../../node_modules/gpii-first-discovery/src");
 
 fluid.defaults("gpii.firstDiscovery.server", {
     gradeNames: ["gpii.express"],
@@ -32,7 +33,11 @@ fluid.defaults("gpii.firstDiscovery.server", {
             }
         }
     },
+    preferencesConfig: {},
     components: {
+        json: {
+            type: "gpii.express.middleware.bodyparser.json"
+        },
         demoRouter: {
             type: "gpii.express.router.static",
             options: {
@@ -57,5 +62,58 @@ fluid.defaults("gpii.firstDiscovery.server", {
     distributeOptions: [{
         source: "{that}.options.port",
         target: "{that}.options.config.express.port"
+    }, {
+        source: "{that}.options.preferencesConfig",
+        target: "{that gpii.firstDiscovery.server.preferences.handler}.options.config"
     }]
+});
+
+fluid.defaults("gpii.firstDiscovery.server.configurator", {
+    gradeNames: ["gpii.schema"],
+    "components": {
+        "fdServer": {
+            "type": "gpii.firstDiscovery.server",
+            "createOnEvent": "validated"
+        }
+    },
+    "distributeOptions": [{
+        "source": "{that}.options.port",
+        "target": "{that fdServer}.options.port"
+    }, {
+        "source": "{that}.options.preferencesConfig",
+        "target": "{that fdServer}.options.preferencesConfig"
+    }],
+    "schema": {
+        "required": ["port", "preferencesConfig"],
+        "properties": {
+            "preferencesConfig": {
+                "required": ["securityServer", "authentication"],
+                "properties": {
+                    "securityServer": {
+                        "required": ["port", "hostname", "paths"],
+                        "properties": {
+                            "port": {"type": "string"},
+                            "hostname": {"type": "string"},
+                            "paths": {
+                                "required": ["token", "preferences"],
+                                "properties": {
+                                    "token": {"type": "string"},
+                                    "preferences": {"type": "string"}
+                                }
+                            }
+                        }
+                    },
+                    "authentication": {
+                        "required": ["grant_type", "scope", "client_id", "client_secret"],
+                        "properties": {
+                            "grant_type": {"type": "string"},
+                            "scope": {"type": "string"},
+                            "client_id": {"type": "string"},
+                            "client_secret": {"type": "string"}
+                        }
+                    }
+                }
+            }
+        }
+    }
 });
