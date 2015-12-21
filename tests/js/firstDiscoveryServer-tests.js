@@ -77,7 +77,6 @@ gpii.tests.firstDiscovery.server.verifyJSONResponse = function (response, body, 
 };
 
 gpii.tests.firstDiscovery.server.setupNock = function (config, access, prefs) {
-    console.log("CONFIG:", JSON.stringify(config));
     var security = nock(config.securityServer.hostname + ":" + config.securityServer.port);
 
     // log nock matches
@@ -112,9 +111,9 @@ fluid.defaults("gpii.tests.firstDiscovery.server.request", {
 
 
 // TODO: Launch an instance of the security server to use for testing.
-// This will likely require pulling in gpii unversal and launching a
-// security server with the appropirate configuration needed for testing.
-// Currenlty this is not possible due to gpii universal and the first
+// This will likely require pulling in gpii universal and launching a
+// security server with the appropriate configuration needed for testing.
+// Currently this is not possible due to gpii universal and the first
 // discovery server depend on incompatible versions of infusion.
 // see: https://issues.gpii.net/browse/GPII-1318
 // For the time being, nock is used to intercept the http requests, providing

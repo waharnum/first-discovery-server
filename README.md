@@ -64,7 +64,7 @@ NODE_ENV=<configName> node node_modules/kettle/init.js <configPath>
             <td><code>/user?[view=:view]</code></td>
             <td><code>POST</code></td>
             <td>
-                Accepts a set of preferences, in a JSON object, to be stored on the preferences server. A GPII token will be returned and can be used for retrieving the preferences on a GPII enabled device. The <code>view</code> query parameter is used to specify which ontology the preferences are stored in. (See: <a href="https://github.com/GPII/universal/blob/master/documentation/PreferencesServer.md#post-preferencesviewview">Prefrences Server</a>)
+                Accepts a set of preferences, in a JSON object, to be stored on the preferences server. A GPII token will be returned and can be used for retrieving the preferences on a GPII enabled device. The <code>view</code> query parameter is used to specify which ontology the preferences are stored in. (See: <a href="https://github.com/GPII/universal/blob/master/documentation/PreferencesServer.md#post-preferencesviewview">Preferences Server</a>)
             </td>
         </tr>
     </tbody>
@@ -81,7 +81,7 @@ Vagrant and Ansible configuration has been provided to make the setup of a devel
 
 ### Working with the VM ###
 
-Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. By default, the server will be accessible on your host machine at `http://localhost:8088`. (e.g. `http://localhost:8088/demos`).
+Once you've cloned the repository onto your local system you'll only need to run `vagrant up` to create the vm. By default, the server will be accessible on your host machine at `http://localhost:8088`. (e.g. `http://localhost:8088/demos/prefsServerIntegration`).
 
 _**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.yml](provisioning/vars.yml) file or 8088 is already in use on your host machine, the actual URL may be different._
 
@@ -93,4 +93,10 @@ Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/
 
 ### Secrets ###
 
-the `client_id` and `client_secret` are confidential and should not be committed. You can pass these values in with environment variables to the VM or making use a config file that isn't committed.
+the `client_id` and `client_secret` are confidential and should not be committed. Vagrant is setup to be provisioned with environment variables from a "secrets.yml" file stored in the "provisioning" directory. "secrets.yml" is ignored by git and should not be added to versioning. An example is provided at "[secrets.yml.example](./provisioning/secrets.yml.example)" and takes the form:
+
+```yaml
+secrets_env_vars:
+  - GPII_OAUTH2_AUTH_CLIENT_ID=first_discovery_client_id
+  - GPII_OAUTH2_AUTH_CLIENT_SECRET=first_discovery_client_secret
+```

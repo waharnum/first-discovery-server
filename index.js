@@ -12,6 +12,6 @@ https://raw.githubusercontent.com/GPII/first-discovery-server/master/LICENSE.txt
 
 var kettle = require("kettle");
 kettle.config.loadConfig({
-    configPath:"./src/config",
+    configPath: "./src/config",
     configName: "vagrant"
 });
