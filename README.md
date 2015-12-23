@@ -93,7 +93,7 @@ Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/
 
 You can build a Docker container from your local own version of the codebase, FE:
 
-- build: `docker build -t aharnum/first-discovery-server .``
+- build: `docker build -t aharnum/first-discovery-server .`
 
 ### Run
 
