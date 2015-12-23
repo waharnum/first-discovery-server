@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+# Docker wrapper script
+
 if [ "$CONTAINER_TEST" = true ]; then
     ansible-playbook docker.yml --tags "deploy" && \
     ansible-playbook docker.yml --tags "test"
