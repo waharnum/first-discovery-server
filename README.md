@@ -87,9 +87,43 @@ _**NOTE**: If you changed the port option, `nodejs_app_tcp_port`, in the [vars.y
 
 Logs output by the VM can be viewed in a web browser at `http://127.0.0.1:19531/entries?_EXE=/usr/bin/node&follow`.
 
-### Building and Deploying With Docker ###
+### Working With Docker ###
 
-- run: `docker run --rm -it -l flowmanager -p 8088:8088 -e GPII_OAUTH2_HOST_NAME=http://flowmanager -e GPII_OAUTH2_TCP_PORT=8081 -e GPII_OAUTH2_AUTH_CLIENT_ID={{ client_id }} -e GPII_OAUTH2_AUTH_CLIENT_SECRET={{ client_secret }} inclusivedesign/first-discovery-server`
+### Build
+
+You can build a Docker container from your local own version of the codebase, FE:
+
+- build: `docker build -t aharnum/first-discovery-server .``
+
+### Run
+
+Launching a working Dockerized version requires some prerequisites:
+- a running Flow Manager to connect to (host name and port specified with the `GPII_OAUTH2_HOST_NAME` and `GPII_OAUTH2_TCP_PORT` environment variables)
+- valid `GPII_OAUTH2_AUTH_CLIENT_ID` and `GPII_OAUTH2_AUTH_CLIENT_SECRET` values to be passed to the container at runtime as environment variables
+
+#### Run Example
+
+This is an example of launching a self-contained Flow Manager container, then connecting a First Discovery Server to it.
+
+- launching Flow Manager:
+```
+docker run --name flowmanagerfd -d \
+-e NODE_ENV=cloudBased.development.all.local \
+-e PREFERENCES_SERVER_HOST_ADDRESS=localhost:8081 \
+gpii/flow-manager
+```
+
+- launching First Discovery server, supplying the client ID and client secret as environment variables:
+```
+docker run -d -l flowmanagerfd -p 8088:8088 --name fdserver \
+-e GPII_OAUTH2_HOST_NAME=http://flowmanagerfd \
+-e GPII_OAUTH2_TCP_PORT=8081 \
+-e GPII_OAUTH2_AUTH_CLIENT_ID={{ client_id }} \
+-e GPII_OAUTH2_AUTH_CLIENT_SECRET={{ client_secret }} \
+gpii/first-discovery-server
+```
+
+You should then be able to connect to http://{docker_host}:8088 /demos/prefsServerIntegration/ and go through the flow to receive a token (where docker_host is the IP of your locally-running Docker host), assuming your flow-manager container runs a version supporting the OAUTH code.
 
 ### Secrets ###
 
