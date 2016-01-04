@@ -127,10 +127,18 @@ You should then be able to connect to http://{docker_host}:8088 /demos/prefsServ
 
 ### Secrets ###
 
-the `client_id` and `client_secret` are confidential and should not be committed. Vagrant is setup to be provisioned with environment variables from a "secrets.yml" file stored in the "provisioning" directory. "secrets.yml" is ignored by git and should not be added to versioning. An example is provided at "[secrets.yml.example](./provisioning/secrets.yml.example)" and takes the form:
+the `client_id` and `client_secret` are confidential and should not be committed.
+
+#### Using Secrets With Vagrant ####
+
+Vagrant is setup to be provisioned with environment variables from a "secrets.yml" file stored in the "provisioning" directory. "secrets.yml" is ignored by git and should not be added to versioning. An example is provided at "[secrets.yml.example](./provisioning/secrets.yml.example)" and takes the form:
 
 ```yaml
 secrets_env_vars:
   - GPII_OAUTH2_AUTH_CLIENT_ID=first_discovery_client_id
   - GPII_OAUTH2_AUTH_CLIENT_SECRET=first_discovery_client_secret
 ```
+
+#### Using Secrets With Docker ####
+
+The needed secrets can be supplied to the Docker container at launch as environment variables with the *-e* flag; see the Docker section above for an example of how this works.
