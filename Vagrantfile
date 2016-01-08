@@ -3,17 +3,17 @@
 
 require 'yaml'
 
-common_ansible_vars = YAML.load_file('provisioning/vars.yml')
-vagrant_ansible_vars = YAML.load_file('provisioning/vagrant-vars.yml')
+vars = YAML.load_file('provisioning/vars.yml')
+vagrant_vars = YAML.load_file('provisioning/vagrant-vars.yml')
 
-app_name = common_ansible_vars["nodejs_app_name"]
+app_name = vars["nodejs_app_name"]
 
-app_directory = vagrant_ansible_vars["nodejs_app_install_dir"]
+app_directory = vagrant_vars["nodejs_app_install_dir"]
 
 # If 'nodejs_app_tcp_port' is defined in vars.yml, use that port.
 # Failing that use defaults provided in this file.
-host_tcp_port = common_ansible_vars["nodejs_app_tcp_port"] || 8088
-guest_tcp_port = common_ansible_vars["nodejs_app_tcp_port"] || 8088
+host_tcp_port = vars["nodejs_app_tcp_port"] || 8088
+guest_tcp_port = vars["nodejs_app_tcp_port"] || 8088
 
 # By default this VM will use 1 processor core and 1GB of RAM. The 'VM_CPUS' and
 # "VM_RAM" environment variables can be used to change that behaviour.
