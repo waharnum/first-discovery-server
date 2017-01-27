@@ -44,8 +44,8 @@ fluid.defaults("gpii.firstDiscovery.server.preferences.handler", {
         preferencesDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "{handler}.options.config.securityServer.hostname",
-                port: "{handler}.options.config.securityServer.port",
+                url: "{handler}.options.config.preferenceServer.hostname",
+                port: "{handler}.options.config.preferenceServer.port",
                 path: "{handler}.options.config.securityServer.paths.preferences",
                 writable: true,
                 writeMethod: "POST",

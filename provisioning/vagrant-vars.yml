@@ -1,6 +1,6 @@
 nodejs_app_start_script: index.js
 
-nodejs_version: 4.2.1
+nodejs_version: 6.9.4
 
 nodejs_npm_version: 2.14.5
 

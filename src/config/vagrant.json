@@ -4,6 +4,14 @@
         "gradeNames": ["gpii.firstDiscovery.server.configurator"],
         "preferencesConfig": {
             "securityServer": {
+                "port": "8082",
+                "hostname": "http://10.0.2.2"
+            },
+            "tokenServer": {
+                "port": "8082",
+                "hostname": "http://10.0.2.2"
+            },
+            "preferenceServer": {
                 "port": "8081",
                 "hostname": "http://10.0.2.2"
             }
